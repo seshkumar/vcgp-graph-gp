@@ -1,0 +1,642 @@
+[
+  {
+    "code": "BG1",
+    "name": "Barking and Dagenham - Rush Green",
+    "type": "Suburban",
+    "lat": 51.563752,
+    "lon": 0.177891,
+    "type_num": 1
+  },
+  {
+    "code": "BG2",
+    "name": "Barking and Dagenham - Scrattons Farm",
+    "type": "Suburban",
+    "lat": 51.529389,
+    "lon": 0.132857,
+    "type_num": 1
+  },
+  {
+    "code": "BX2",
+    "name": "Bexley - Belvedere",
+    "type": "Suburban",
+    "lat": 51.4906102082147,
+    "lon": 0.158914493927518,
+    "type_num": 1
+  },
+  {
+    "code": "BQ7",
+    "name": "Bexley - Belvedere West",
+    "type": "Urban Background",
+    "lat": 51.4946486813055,
+    "lon": 0.137279111232178,
+    "type_num": 2
+  },
+  {
+    "code": "BX1",
+    "name": "Bexley - Slade Green",
+    "type": "Suburban",
+    "lat": 51.4659832746662,
+    "lon": 0.184877126994369,
+    "type_num": 1
+  },
+  {
+    "code": "BQ9",
+    "name": "Bexley - Slade Green Fidas",
+    "type": "Suburban",
+    "lat": 51.4659832746662,
+    "lon": 0.184877126994369,
+    "type_num": 1
+  },
+  {
+    "code": "BT8",
+    "name": "Brent - ARK Franklin Primary Academy",
+    "type": "Roadside",
+    "lat": 51.5324054617809,
+    "lon": -0.217718908639377,
+    "type_num": 4
+  },
+  {
+    "code": "BT4",
+    "name": "Brent - Ikea",
+    "type": "Roadside",
+    "lat": 51.552476,
+    "lon": -0.258089,
+    "type_num": 4
+  },
+  {
+    "code": "BT6",
+    "name": "Brent - John Keble Primary School",
+    "type": "Roadside",
+    "lat": 51.537799,
+    "lon": -0.247793,
+    "type_num": 4
+  },
+  {
+    "code": "BT5",
+    "name": "Brent - Neasden Lane",
+    "type": "Industrial",
+    "lat": 51.552656,
+    "lon": -0.248774,
+    "type_num": 3
+  },
+  {
+    "code": "BL0",
+    "name": "Camden - Bloomsbury",
+    "type": "Urban Background",
+    "lat": 51.522287,
+    "lon": -0.125848,
+    "type_num": 2
+  },
+  {
+    "code": "CD1",
+    "name": "Camden - Swiss Cottage",
+    "type": "Kerbside",
+    "lat": 51.544219,
+    "lon": -0.175284,
+    "type_num": 5
+  },
+  {
+    "code": "CR5",
+    "name": "Croydon - Norbury",
+    "type": "Kerbside",
+    "lat": 51.411349,
+    "lon": -0.12311,
+    "type_num": 5
+  },
+  {
+    "code": "CR8",
+    "name": "Croydon - Norbury Manor",
+    "type": "Urban Background",
+    "lat": 51.410039,
+    "lon": -0.127523,
+    "type_num": 2
+  },
+  {
+    "code": "CR9",
+    "name": "Croydon - Park Lane",
+    "type": "Roadside",
+    "lat": 51.3739530635378,
+    "lon": -0.0967638468323854,
+    "type_num": 4
+  },
+  {
+    "code": "CR7",
+    "name": "Croydon - Purley Way A23",
+    "type": "Roadside",
+    "lat": 51.3622305655403,
+    "lon": -0.117604507351392,
+    "type_num": 4
+  },
+  {
+    "code": "EN5",
+    "name": "Enfield - Bowes Primary School",
+    "type": "Roadside",
+    "lat": 51.613865,
+    "lon": -0.125338,
+    "type_num": 4
+  },
+  {
+    "code": "EN1",
+    "name": "Enfield - Bush Hill Park",
+    "type": "Suburban",
+    "lat": 51.6450367266602,
+    "lon": -0.0661800662229116,
+    "type_num": 1
+  },
+  {
+    "code": "EN4",
+    "name": "Enfield - Derby Road",
+    "type": "Roadside",
+    "lat": 51.614864007,
+    "lon": -0.0507658363689,
+    "type_num": 4
+  },
+  {
+    "code": "EN7",
+    "name": "Enfield - Prince of Wales School",
+    "type": "Urban Background",
+    "lat": 51.66864334727,
+    "lon": -0.02200720557,
+    "type_num": 2
+  },
+  {
+    "code": "GN0",
+    "name": "Greenwich - A206 Burrage Grove",
+    "type": "Roadside",
+    "lat": 51.490532,
+    "lon": 0.074003,
+    "type_num": 4
+  },
+  {
+    "code": "GR7",
+    "name": "Greenwich - Blackheath",
+    "type": "Roadside",
+    "lat": 51.472504,
+    "lon": -0.012381,
+    "type_num": 4
+  },
+  {
+    "code": "GR4",
+    "name": "Greenwich - Eltham",
+    "type": "Suburban",
+    "lat": 51.45258,
+    "lon": 0.070766,
+    "type_num": 1
+  },
+  {
+    "code": "GB6",
+    "name": "Greenwich - Falconwood",
+    "type": "Roadside",
+    "lat": 51.4563,
+    "lon": 0.085606,
+    "type_num": 4
+  },
+  {
+    "code": "GB0",
+    "name": "Greenwich - Falconwood FDMS",
+    "type": "Roadside",
+    "lat": 51.4563,
+    "lon": 0.085606,
+    "type_num": 4
+  },
+  {
+    "code": "GN4",
+    "name": "Greenwich - Fiveways Sidcup Rd A20",
+    "type": "Roadside",
+    "lat": 51.4346627060562,
+    "lon": 0.0642224671704697,
+    "type_num": 4
+  },
+  {
+    "code": "GN6",
+    "name": "Greenwich - John Harrison Way",
+    "type": "Roadside",
+    "lat": 51.4937746695818,
+    "lon": 0.0107796237032558,
+    "type_num": 4
+  },
+  {
+    "code": "GN3",
+    "name": "Greenwich - Plumstead High Street",
+    "type": "Roadside",
+    "lat": 51.486957,
+    "lon": 0.095111,
+    "type_num": 4
+  },
+  {
+    "code": "GN5",
+    "name": "Greenwich - Trafalgar Road (Hoskins St)",
+    "type": "Roadside",
+    "lat": 51.4839072533485,
+    "lon": 0.000407396935849736,
+    "type_num": 4
+  },
+  {
+    "code": "TL4",
+    "name": "Greenwich - Tunnel Avenue",
+    "type": "Roadside",
+    "lat": 51.495057,
+    "lon": 0.0041074676,
+    "type_num": 4
+  },
+  {
+    "code": "GR9",
+    "name": "Greenwich - Westhorne Avenue",
+    "type": "Roadside",
+    "lat": 51.456357,
+    "lon": 0.040725,
+    "type_num": 4
+  },
+  {
+    "code": "GR8",
+    "name": "Greenwich - Woolwich Flyover",
+    "type": "Roadside",
+    "lat": 51.486884,
+    "lon": 0.017901,
+    "type_num": 4
+  },
+  {
+    "code": "HK6",
+    "name": "Hackney - Old Street",
+    "type": "Roadside",
+    "lat": 51.526454,
+    "lon": -0.08491,
+    "type_num": 4
+  },
+  {
+    "code": "HG4",
+    "name": "Haringey  - Priory Park South",
+    "type": "Urban Background",
+    "lat": 51.5839769007709,
+    "lon": -0.125400278484885,
+    "type_num": 2
+  },
+  {
+    "code": "HG1",
+    "name": "Haringey - Haringey Town Hall",
+    "type": "Roadside",
+    "lat": 51.599302,
+    "lon": -0.068218,
+    "type_num": 4
+  },
+  {
+    "code": "HV1",
+    "name": "Havering - Rainham",
+    "type": "Roadside",
+    "lat": 51.520787459334,
+    "lon": 0.205460705694044,
+    "type_num": 4
+  },
+  {
+    "code": "HV3",
+    "name": "Havering - Romford",
+    "type": "Roadside",
+    "lat": 51.572976,
+    "lon": 0.179079,
+    "type_num": 4
+  },
+  {
+    "code": "LH0",
+    "name": "Hillingdon - Harlington",
+    "type": "Urban Background",
+    "lat": 51.48878,
+    "lon": -0.441627,
+    "type_num": 2
+  },
+  {
+    "code": "HI0",
+    "name": "Hillingdon - Keats Way",
+    "type": "Suburban",
+    "lat": 51.496309,
+    "lon": -0.460826,
+    "type_num": 1
+  },
+  {
+    "code": "IS6",
+    "name": "Islington - Arsenal",
+    "type": "Urban Background",
+    "lat": 51.557895,
+    "lon": -0.106989,
+    "type_num": 2
+  },
+  {
+    "code": "IS2",
+    "name": "Islington - Holloway Road",
+    "type": "Roadside",
+    "lat": 51.555378,
+    "lon": -0.116146,
+    "type_num": 4
+  },
+  {
+    "code": "KC1",
+    "name": "Kensington and Chelsea - North Ken",
+    "type": "Urban Background",
+    "lat": 51.5210467476039,
+    "lon": -0.213492139585065,
+    "type_num": 2
+  },
+  {
+    "code": "KF1",
+    "name": "Kensington and Chelsea - North Ken FIDAS",
+    "type": "Urban Background",
+    "lat": 51.5210467476039,
+    "lon": -0.213492139585065,
+    "type_num": 2
+  },
+  {
+    "code": "GT1",
+    "name": "Kensington and Chelsea - Station Walk",
+    "type": "Urban Background",
+    "lat": 51.5140519844289,
+    "lon": -0.216532947379263,
+    "type_num": 2
+  },
+  {
+    "code": "LB5",
+    "name": "Lambeth - Bondway Interchange",
+    "type": "Industrial",
+    "lat": 51.4854867739729,
+    "lon": -0.124545234819213,
+    "type_num": 3
+  },
+  {
+    "code": "LB4",
+    "name": "Lambeth - Brixton Road",
+    "type": "Kerbside",
+    "lat": 51.464113541162,
+    "lon": -0.11458102695123,
+    "type_num": 5
+  },
+  {
+    "code": "LB6",
+    "name": "Lambeth - Streatham Green",
+    "type": "Urban Background",
+    "lat": 51.4282131429499,
+    "lon": -0.13186863879576,
+    "type_num": 2
+  },
+  {
+    "code": "WAC",
+    "name": "Lavender Hill",
+    "type": "Roadside",
+    "lat": 51.4636903568111,
+    "lon": -0.166713485994806,
+    "type_num": 4
+  },
+  {
+    "code": "HP1",
+    "name": "Lewisham - Honor Oak Park",
+    "type": "Urban Background",
+    "lat": 51.4496728960354,
+    "lon": -0.0374153592115306,
+    "type_num": 2
+  },
+  {
+    "code": "TD5",
+    "name": "London Teddington Bushy Park ",
+    "type": "Suburban",
+    "lat": 51.4252560360937,
+    "lon": -0.345608290872898,
+    "type_num": 1
+  },
+  {
+    "code": "MR8",
+    "name": "Marylebone Road - BAM",
+    "type": "Kerbside",
+    "lat": 51.5225093597419,
+    "lon": -0.154622154656843,
+    "type_num": 5
+  },
+  {
+    "code": "ME2",
+    "name": "Merton - Merton Road",
+    "type": "Roadside",
+    "lat": 51.4161384794862,
+    "lon": -0.192230805042824,
+    "type_num": 4
+  },
+  {
+    "code": "MEA",
+    "name": "Merton - Mitcham",
+    "type": "Roadside",
+    "lat": 51.4055473441872,
+    "lon": -0.164596893540707,
+    "type_num": 4
+  },
+  {
+    "code": "ME9",
+    "name": "Merton - Morden Civic Centre 2",
+    "type": "Roadside",
+    "lat": 51.40162,
+    "lon": -0.19589212,
+    "type_num": 4
+  },
+  {
+    "code": "MEB",
+    "name": "Merton - Plough Lane Wimbledon",
+    "type": "Roadside",
+    "lat": 51.4304273690564,
+    "lon": -0.185811823620255,
+    "type_num": 4
+  },
+  {
+    "code": "TL6",
+    "name": "Newham - Britannia Gate",
+    "type": "Roadside",
+    "lat": 51.503858,
+    "lon": 0.020574415,
+    "type_num": 4
+  },
+  {
+    "code": "TL5",
+    "name": "Newham - Hoola Tower",
+    "type": "Roadside",
+    "lat": 51.508198,
+    "lon": 0.015002152,
+    "type_num": 4
+  },
+  {
+    "code": "CE3",
+    "name": "Regent Street (The Crown Estate)",
+    "type": "Roadside",
+    "lat": 51.5113771448991,
+    "lon": -0.139249367757023,
+    "type_num": 4
+  },
+  {
+    "code": "RI2",
+    "name": "Richmond Upon Thames - Barnes Wetlands",
+    "type": "Suburban",
+    "lat": 51.476168,
+    "lon": -0.230427,
+    "type_num": 1
+  },
+  {
+    "code": "RI1",
+    "name": "Richmond Upon Thames - Castelnau",
+    "type": "Roadside",
+    "lat": 51.480189,
+    "lon": -0.237335,
+    "type_num": 4
+  },
+  {
+    "code": "RHI",
+    "name": "Richmond Upon Thames - Richmond",
+    "type": "Kerbside",
+    "lat": 51.4638976490621,
+    "lon": -0.301685013378926,
+    "type_num": 5
+  },
+  {
+    "code": "AZ99",
+    "name": "Sk B Site",
+    "type": "Urban Background",
+    "lat": 50.9112219333093,
+    "lon": 0.0556574726512342,
+    "type_num": 2
+  },
+  {
+    "code": "SK5",
+    "name": "Southwark - A2 Old Kent Road",
+    "type": "Roadside",
+    "lat": 51.4804994936467,
+    "lon": -0.0595528932573422,
+    "type_num": 4
+  },
+  {
+    "code": "TH4",
+    "name": "Tower Hamlets - Blackwall",
+    "type": "Roadside",
+    "lat": 51.5150461674013,
+    "lon": -0.00841849265642741,
+    "type_num": 4
+  },
+  {
+    "code": "CW3",
+    "name": "Tower Hamlets - Jubilee Park",
+    "type": "Urban Background",
+    "lat": 51.5029878731458,
+    "lon": -0.0180219908165375,
+    "type_num": 2
+  },
+  {
+    "code": "TH7",
+    "name": "Tower Hamlets - King Edward Memorial Park",
+    "type": "Urban Background",
+    "lat": 51.5094228799835,
+    "lon": -0.0505278232872832,
+    "type_num": 2
+  },
+  {
+    "code": "TH2",
+    "name": "Tower Hamlets - Mile End Road",
+    "type": "Roadside",
+    "lat": 51.5225462561171,
+    "lon": -0.0420823040635312,
+    "type_num": 4
+  },
+  {
+    "code": "TH6",
+    "name": "Tower Hamlets - Millwall Park",
+    "type": "Urban Background",
+    "lat": 51.4891342634,
+    "lon": -0.0129769309432,
+    "type_num": 2
+  },
+  {
+    "code": "TH5",
+    "name": "Tower Hamlets - Victoria Park",
+    "type": "Urban Background",
+    "lat": 51.5399327394691,
+    "lon": -0.0331740581778178,
+    "type_num": 2
+  },
+  {
+    "code": "WAA",
+    "name": "Wandsworth - Battersea",
+    "type": "Roadside",
+    "lat": 51.4794395281222,
+    "lon": -0.141786953606306,
+    "type_num": 4
+  },
+  {
+    "code": "WA9",
+    "name": "Wandsworth - Putney",
+    "type": "Urban Background",
+    "lat": 51.4650325059122,
+    "lon": -0.215824580947572,
+    "type_num": 2
+  },
+  {
+    "code": "WA7",
+    "name": "Wandsworth - Putney High Street",
+    "type": "Kerbside",
+    "lat": 51.463429,
+    "lon": -0.215871,
+    "type_num": 5
+  },
+  {
+    "code": "WAB",
+    "name": "Wandsworth - Tooting High Street",
+    "type": "Roadside",
+    "lat": 51.429331,
+    "lon": -0.166524,
+    "type_num": 4
+  },
+  {
+    "code": "CE2",
+    "name": "Waterloo Place (The Crown Estate)",
+    "type": "Roadside",
+    "lat": 51.5075819137762,
+    "lon": -0.133068372704093,
+    "type_num": 4
+  },
+  {
+    "code": "WM5",
+    "name": "Westminster - Covent Garden",
+    "type": "Urban Background",
+    "lat": 51.5119769825798,
+    "lon": -0.12162720332856,
+    "type_num": 2
+  },
+  {
+    "code": "WMD",
+    "name": "Westminster - Elizabeth Bridge",
+    "type": "Roadside",
+    "lat": 51.4922482333024,
+    "lon": -0.147114752900186,
+    "type_num": 4
+  },
+  {
+    "code": "WM0",
+    "name": "Westminster - Horseferry Road",
+    "type": "Urban Background",
+    "lat": 51.494681,
+    "lon": -0.131938,
+    "type_num": 2
+  },
+  {
+    "code": "MY1",
+    "name": "Westminster - Marylebone Road",
+    "type": "Kerbside",
+    "lat": 51.52254,
+    "lon": -0.15459,
+    "type_num": 5
+  },
+  {
+    "code": "WM6",
+    "name": "Westminster - Oxford Street",
+    "type": "Kerbside",
+    "lat": 51.5139287404213,
+    "lon": -0.152792701881935,
+    "type_num": 5
+  },
+  {
+    "code": "WME",
+    "name": "Westminster - Queens Park Gardens",
+    "type": "Urban Background",
+    "lat": 51.5286629697555,
+    "lon": -0.20875365618309,
+    "type_num": 2
+  }
+]

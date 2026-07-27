@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+results/
+results_cv/
+results_fisher_ridge/
+graph_gp/data_cache/weather/
+*.h5
+*.log
+.DS_Store
+.ipynb_checkpoints/
