@@ -35,7 +35,6 @@ Runner library under `graph_gp/`:
 | `run_cv_selection.py` | validation-fold model selection over `(member, K, d, λ)` (`--grid full`) |
 | `run_dataset_di_sweep.py` | auxiliary-`d` ablation (varies `d` over leakage-free choices) |
 | `run_deep_ensemble_gnn.py` | Deep Ensemble GNN baseline (M = 5 GCNs, mean/variance heads); needs `torch_geometric` |
-| `run_bktr_baseline.py` | the cited BKTR method (Lei, Labbé & Sun, *Bayesian Analysis* 2025); needs `pyBKTR` |
 | `deep_kernel_baseline.py` | the `dk` deep-kernel-GP baseline (computed; not a headline row) |
 | `paciorek_schervish_baseline.py` | the `ps` per-node non-stationary GP baseline |
 | `baselines.py` | shared GP inference and stationary/Matern kernels |
