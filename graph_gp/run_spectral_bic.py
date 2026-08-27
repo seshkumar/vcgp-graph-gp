@@ -101,7 +101,7 @@ def build_block_laplacian(coords_km, labels, k_nn=8):
 
 def lgamma_block_kernel(L, n, d_raw, tau, scale, gammas, labels):
     d = np.maximum(d_raw, 1e-8)
-    d_pow = np.clip(np.power(d, gammas[labels] / 2.0), 1e-4, 1e4)
+    d_pow = np.clip(np.power(d, -gammas[labels] / 2.0), 1e-4, 1e4)
     D_inv = np.diag(1.0 / d); D_pow = np.diag(d_pow)
     Q = D_inv + 2.0 * tau * D_pow @ L @ D_pow
     K = scale * np.linalg.inv(Q + 1e-8 * np.eye(n))
@@ -118,7 +118,7 @@ def train_nll_from_params(L_bl, n, d_raw, yt, ti, labels,
     gamma_t = torch.tensor(gammas, dtype=torch.float64)
     c_t = torch.tensor(labels, dtype=torch.long)
     gamma_per_node = gamma_t[c_t]
-    d_pow = torch.pow(d_t, gamma_per_node / 2.0).clamp(1e-4, 1e4)
+    d_pow = torch.pow(d_t, -gamma_per_node / 2.0).clamp(1e-4, 1e4)
     Q = D_inv + 2 * tau * (d_pow[:, None] * Lt * d_pow[None, :])
     K_ker = scale * torch.linalg.inv(Q + 1e-8 * torch.eye(n, dtype=torch.float64))
     K_ker = (K_ker + K_ker.T) / 2

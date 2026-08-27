@@ -177,15 +177,15 @@ def _fisher_params(L, n, d, yt, ti, nu=0.5):
     from run_fisher_ridge import fisher_var_gamma
     het = fit_het_joint(L, n, d, yt, ti) or (0.1, 1.0, 0.1)
     th, sh, noh = het
-    p0 = learn_gamma_ridge(L, n, d, yt, ti, lam=0.0, gamma_ref=-1.0,
-                           init=(th, sh, noh), gamma_init=-1.0, nu=nu)
+    p0 = learn_gamma_ridge(L, n, d, yt, ti, lam=0.0, gamma_ref=1.0,
+                           init=(th, sh, noh), gamma_init=1.0, nu=nu)
     if p0 is None:
         return None
     tau0, scale0, noise0, gamma0 = p0[0], p0[1], p0[2], p0[3]
     var_g, _ = fisher_var_gamma(tau0, scale0, noise0, gamma0, L, d, n, yt, ti, nu=nu)
     lam = 0.5 / max(var_g, 1e-12)
-    return learn_gamma_ridge(L, n, d, yt, ti, lam=lam, gamma_ref=-1.0,
-                             init=(th, sh, noh), gamma_init=-1.0, nu=nu)
+    return learn_gamma_ridge(L, n, d, yt, ti, lam=lam, gamma_ref=1.0,
+                             init=(th, sh, noh), gamma_init=1.0, nu=nu)
 
 
 def _sym(K):
@@ -218,7 +218,7 @@ def predict(member, L_full, n, d_raw, coords_km, y_norm, ti):
     elif base == 'lgamma':
         t_h, s_h, no_h = fit_het_joint(L_full, n, d, yt, ti)
         t, s, no, g = learn_gamma(L_full, n, d, yt, ti, init=(t_h, s_h, no_h))
-        dp = np.clip(np.power(d, g / 2.0), 1e-4, 1e4)
+        dp = np.clip(np.power(d, -g / 2.0), 1e-4, 1e4)
         Q = np.diag(1.0 / d) + 2 * t * np.diag(dp) @ L_full @ np.diag(dp)
         K = s * np.linalg.inv(Q + 1e-8 * I)
     elif base == 'lgamma_fisher':
@@ -226,7 +226,7 @@ def predict(member, L_full, n, d_raw, coords_km, y_norm, ti):
         if pf is None:
             raise RuntimeError('lgamma_fisher fit failed')
         t, s, no, g = pf[0], pf[1], pf[2], pf[3]
-        dp = np.clip(np.power(d, g / 2.0), 1e-4, 1e4)
+        dp = np.clip(np.power(d, -g / 2.0), 1e-4, 1e4)
         Q = np.diag(1.0 / d) + 2 * t * np.diag(dp) @ L_full @ np.diag(dp)
         K = s * np.linalg.inv(Q + 1e-8 * I)
     elif base.startswith('lgamma_block_K'):
@@ -236,7 +236,7 @@ def predict(member, L_full, n, d_raw, coords_km, y_norm, ti):
         t, s, no, gk = learn_gamma_per_cluster(
             L_bl, n, d, yt, ti, labels, init=(t_h, s_h, no_h))
         gpn = gk[labels]
-        dp = np.clip(np.power(d, gpn / 2.0), 1e-4, 1e4)
+        dp = np.clip(np.power(d, -gpn / 2.0), 1e-4, 1e4)
         Q = np.diag(1.0 / d) + 2 * t * np.outer(dp, dp) * L_bl
         K = s * np.linalg.inv(Q + 1e-8 * I)
     elif base.startswith('augblock_K'):
@@ -248,7 +248,7 @@ def predict(member, L_full, n, d_raw, coords_km, y_norm, ti):
         t, s, no, gk = learn_gamma_per_cluster(
             L_bl, n, d, yt, ti, labels, init=(t_h, s_h, no_h))
         gpn = gk[labels]
-        dp = np.clip(np.power(d, gpn / 2.0), 1e-4, 1e4)
+        dp = np.clip(np.power(d, -gpn / 2.0), 1e-4, 1e4)
         Q = np.diag(1.0 / d) + 2 * t * np.outer(dp, dp) * L_bl
         K = s * np.linalg.inv(Q + 1e-8 * I)
     elif base.startswith('augfull_K'):
@@ -260,7 +260,7 @@ def predict(member, L_full, n, d_raw, coords_km, y_norm, ti):
         t, s, no, gk = learn_gamma_per_cluster(
             L_fl, n, d, yt, ti, labels, init=(t_h, s_h, no_h))
         gpn = gk[labels]
-        dp = np.clip(np.power(d, gpn / 2.0), 1e-4, 1e4)
+        dp = np.clip(np.power(d, -gpn / 2.0), 1e-4, 1e4)
         Q = np.diag(1.0 / d) + 2 * t * np.outer(dp, dp) * L_fl
         K = s * np.linalg.inv(Q + 1e-8 * I)
     else:

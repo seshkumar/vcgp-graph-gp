@@ -223,10 +223,12 @@ target, so it shares no observation with the quantity being predicted:
   with mean/variance heads). `deep_kernel_baseline.py` is a different baseline
   (the `dk` deep-kernel GP) that is computed by the pipeline but is not a
   headline row.
-- **Sign convention of gamma.** The code implements the precision as
-  `Q = D^{-1} + 2 tau D^{+gamma/2} L D^{+gamma/2}`, whereas the paper writes
-  `D^{-gamma/2}`. The two differ by the sign of gamma: `gamma_paper = -gamma_code`.
-  Reported gamma-hat values in the paper are in the paper convention.
+- **Sign convention of gamma.** The code implements the paper's precision
+  directly, `Q = D^{-1} + 2 tau D^{-gamma/2} L D^{-gamma/2}`, so the gamma printed
+  and stored by these scripts is the paper's gamma with no conversion. The
+  factorisation point of Proposition 1 is `gamma = +1` (`het`), and `gamma = 0`
+  is the FEM/SPDE member. An earlier revision used `D^{+gamma/2}` internally and
+  required negating the reported value; that is no longer the case.
 
 ---
 

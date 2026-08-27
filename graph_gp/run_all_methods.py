@@ -207,7 +207,7 @@ def fit_semisup_joint(L, n, d_raw, yt, ti, n_iter=200, lr=0.05):
 
 
 def learn_gamma(L, n, d_raw, yt, ti, n_iter=300, lr=0.03, init=None,
-                gamma_init=-1.0):
+                gamma_init=1.0):
     """Learn (tau, scale, noise, gamma) jointly via MLL for the paper's Q_gamma:
 
         Q_gamma = D^{-1} + 2*tau * D^{gamma/2} L D^{gamma/2}
@@ -226,7 +226,7 @@ def learn_gamma(L, n, d_raw, yt, ti, n_iter=300, lr=0.03, init=None,
     Warm-start: if `init=(tau, scale, noise)` is provided, initialises those
     three at the supplied values. `gamma_init` is the initial value of gamma
     (default -1.0, the Proposition 1 factorisation point). Passing the het
-    fit as `init` with `gamma_init=-1.0` makes lgamma start exactly at the
+    fit as `init` with `gamma_init=1.0` makes lgamma start exactly at the
     het optimum, guaranteeing the returned NLL is no worse than het's NLL.
     Setting `gamma_init=0.0` instead (with or without `init`) starts from
     the semisup factorisation point and can be used to probe whether the
@@ -255,7 +255,7 @@ def learn_gamma(L, n, d_raw, yt, ti, n_iter=300, lr=0.03, init=None,
     for _ in range(n_iter):
         opt.zero_grad()
         t, s, no = torch.exp(lt), torch.exp(ls), torch.exp(ln)
-        d_pow = torch.pow(d_t, gamma / 2.0)            # D^{gamma/2}
+        d_pow = torch.pow(d_t, -gamma / 2.0)            # D^{gamma/2}
         d_pow = torch.clamp(d_pow, min=1e-4, max=1e4)
         D_pow = torch.diag(d_pow)
         Q = D_inv + 2 * t * D_pow @ Lt @ D_pow
@@ -311,7 +311,7 @@ def learn_gamma_per_cluster(L, n, d_raw, yt, ti, cluster_labels,
         opt.zero_grad()
         t, s, no = torch.exp(lt), torch.exp(ls), torch.exp(ln)
         gamma_per_node = gamma_k[c_t]
-        d_pow = torch.pow(d_t, gamma_per_node / 2.0)
+        d_pow = torch.pow(d_t, -gamma_per_node / 2.0)
         d_pow = torch.clamp(d_pow, min=1e-4, max=1e4)
         Q = D_inv + 2 * t * (d_pow[:, None] * Lt * d_pow[None, :])
         K_ker = s * torch.linalg.inv(Q + 1e-8 * torch.eye(n, dtype=torch.float64))
@@ -842,9 +842,9 @@ def run_all(A, L, n, y_norm, d_raw, coords_km, feat, seed, dataset, skip=None):
     if params is not None:
         tau_g, scale_g, noise_g, gamma_opt = params
         # Build Q_gamma using the paper's form (matches learn_gamma):
-        #   Q = D^{-1} + 2*tau * D^{gamma/2} L D^{gamma/2}
+        #   Q = D^{-1} + 2*tau * D^{-gamma/2} L D^{-gamma/2}
         d_safe = np.maximum(d_raw, 1e-8)
-        d_pow = np.power(d_safe, gamma_opt / 2.0)
+        d_pow = np.power(d_safe, -gamma_opt / 2.0)
         d_pow = np.clip(d_pow, 1e-4, 1e4)
         Q_lg = np.diag(1.0 / d_safe) + 2 * tau_g * np.diag(d_pow) @ L @ np.diag(d_pow)
         K_lg = scale_g * np.linalg.inv(Q_lg + 1e-8 * np.eye(n))
@@ -1002,7 +1002,7 @@ if __name__ == '__main__':
         tau_k, scale_k, noise_k, gamma_k_arr = params_k
         d_safe = np.maximum(d_raw, 1e-8)
         gamma_per_node = gamma_k_arr[cluster_labels]
-        d_pow = np.clip(np.power(d_safe, gamma_per_node / 2.0), 1e-4, 1e4)
+        d_pow = np.clip(np.power(d_safe, -gamma_per_node / 2.0), 1e-4, 1e4)
         Q_lgk = np.diag(1.0 / d_safe) + 2 * tau_k * np.outer(d_pow, d_pow) * L
         K_lgk = scale_k * np.linalg.inv(Q_lgk + 1e-8 * np.eye(n))
         K_lgk = (K_lgk + K_lgk.T) / 2

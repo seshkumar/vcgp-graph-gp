@@ -42,8 +42,8 @@ def _log(msg):
     print(msg, flush=True)
 
 
-def learn_gamma_ridge(L, n, d_raw, yt, ti, lam, gamma_ref=-1.0,
-                      n_iter=300, lr=0.03, init=None, gamma_init=-1.0,
+def learn_gamma_ridge(L, n, d_raw, yt, ti, lam, gamma_ref=1.0,
+                      n_iter=300, lr=0.03, init=None, gamma_init=1.0,
                       nu=0.5):
     """learn_gamma variant with a ridge penalty lam*(gamma - gamma_ref)^2
     added to -MLL. lam=0 recovers the paper's vanilla lgamma.
@@ -71,7 +71,7 @@ def learn_gamma_ridge(L, n, d_raw, yt, ti, lam, gamma_ref=-1.0,
     for _ in range(n_iter):
         opt.zero_grad()
         t, s, no = torch.exp(lt), torch.exp(ls), torch.exp(ln)
-        d_pow = torch.pow(d_t, gamma / 2.0)
+        d_pow = torch.pow(d_t, -gamma / 2.0)
         d_pow = torch.clamp(d_pow, min=1e-4, max=1e4)
         D_pow = torch.diag(d_pow)
         Q = D_inv + 2 * t * D_pow @ Lt @ D_pow
@@ -104,7 +104,7 @@ def learn_gamma_ridge(L, n, d_raw, yt, ti, lam, gamma_ref=-1.0,
 def build_Q_gamma(L, d_raw, tau, gamma):
     d = np.maximum(d_raw, 1e-8)
     D_inv = np.diag(1.0 / d)
-    dpow = np.clip(np.power(d, gamma / 2.0), 1e-4, 1e4)
+    dpow = np.clip(np.power(d, -gamma / 2.0), 1e-4, 1e4)
     D_pow = np.diag(dpow)
     return D_inv + 2.0 * tau * D_pow @ L @ D_pow
 
@@ -147,7 +147,7 @@ def eval_one(A, L, n, y, d_raw, seed, lambdas, gamma_ref):
         t2 = time.time()
         params = learn_gamma_ridge(L, n, d_raw, yt, ti, lam=lam,
                                    gamma_ref=gamma_ref, n_iter=300,
-                                   init=(th, sh, noh), gamma_init=-1.0)
+                                   init=(th, sh, noh), gamma_init=1.0)
         if params is None:
             _log(f'[seed {seed}] lam={lam}: FAIL')
             continue

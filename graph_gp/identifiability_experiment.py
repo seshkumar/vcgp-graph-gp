@@ -30,7 +30,7 @@ from synthetic_nonstationary import build_laplacian, make_grid_graph
 def paper_kernel(L, d_raw, tau, scale, gamma, n):
     d = np.maximum(d_raw, 1e-8)
     D_inv = np.diag(1.0 / d)
-    d_pow = np.clip(np.power(d, gamma / 2.0), 1e-4, 1e4)
+    d_pow = np.clip(np.power(d, -gamma / 2.0), 1e-4, 1e4)
     D_pow = np.diag(d_pow)
     Q = D_inv + 2.0 * tau * D_pow @ L @ D_pow
     K = scale * np.linalg.inv(Q + 1e-8 * np.eye(n))
@@ -57,7 +57,7 @@ def fit_gamma_mll(L, n, d_raw, yt, ti, n_iter=300, lr=0.03):
     for _ in range(n_iter):
         opt.zero_grad()
         t, s, no = torch.exp(lt), torch.exp(ls), torch.exp(ln)
-        d_pow = torch.clamp(torch.pow(d_t, gamma / 2.0), min=1e-4, max=1e4)
+        d_pow = torch.clamp(torch.pow(d_t, -gamma / 2.0), min=1e-4, max=1e4)
         D_pow = torch.diag(d_pow)
         Q = D_inv + 2.0 * t * D_pow @ Lt @ D_pow
         K = s * torch.linalg.inv(Q + 1e-8 * torch.eye(n, dtype=torch.float64))
@@ -115,7 +115,7 @@ def generate_and_recover(gamma_true, train_frac, seed, side=20):
 if __name__ == '__main__':
     # Paper convention: gamma_paper = -gamma_code. The internal kernel/fit
     # routines use code convention; we negate at the user boundary.
-    SIGN = -1.0
+    SIGN = 1.0
     gammas_true_paper = [-1.0, 0.0, 1.0, 3.0]
     train_fracs = [0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
     n_seeds = 10

@@ -100,7 +100,7 @@ def lgamma_kernel(L, d, tau, scale, gammas, labels=None):
         gp_per_node = np.full(len(L), gammas)
     else:
         gp_per_node = gammas[labels]
-    dp = np.clip(np.power(d, gp_per_node / 2.0), 1e-4, 1e4)
+    dp = np.clip(np.power(d, -gp_per_node / 2.0), 1e-4, 1e4)
     Q = np.diag(1.0 / d) + 2.0 * tau * (dp[:, None] * L * dp[None, :])
     K = scale * np.linalg.inv(Q + 1e-8 * np.eye(len(L)))
     return 0.5 * (K + K.T)

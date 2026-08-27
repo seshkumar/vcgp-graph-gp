@@ -47,7 +47,7 @@ def build_block_laplacian(coords_km, labels, k_nn=8):
 
 def lgamma_block_kernel(L, n, d_raw, tau, scale, gammas, labels):
     d = np.maximum(d_raw, 1e-8)
-    d_pow = np.power(d, gammas[labels] / 2.0)
+    d_pow = np.power(d, -gammas[labels] / 2.0)
     d_pow = np.clip(d_pow, 1e-4, 1e4)
     D_inv = np.diag(1.0 / d)
     D_pow = np.diag(d_pow)

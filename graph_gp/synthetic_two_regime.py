@@ -119,7 +119,7 @@ def build_kernel_piecewise_gamma(L, d_raw, tau, gamma_per_node):
     """K = (D^{-1} + 2*tau * D^{gamma/2} L D^{gamma/2})^{-1}, per-node gamma."""
     n = L.shape[0]
     d = np.maximum(d_raw, 1e-8)
-    d_pow = np.clip(np.power(d, gamma_per_node / 2.0), 1e-4, 1e4)
+    d_pow = np.clip(np.power(d, -gamma_per_node / 2.0), 1e-4, 1e4)
     D_inv = np.diag(1.0 / d)
     D_pow = np.diag(d_pow)
     Q = D_inv + 2.0 * tau * D_pow @ L @ D_pow
@@ -213,7 +213,7 @@ def run_one_seed(seed):
 
     # --- lgamma: scalar learned gamma ---
     t = time.time()
-    pg = learn_gamma(L, n, d_raw, yt, ti, init=(tau_h, sc_h, no_h), gamma_init=-1.0)
+    pg = learn_gamma(L, n, d_raw, yt, ti, init=(tau_h, sc_h, no_h), gamma_init=1.0)
     if pg is None:
         log(f'  lgamma returned None; skipping'); return results
     tau_g, sc_g, no_g, gamma_scalar = pg

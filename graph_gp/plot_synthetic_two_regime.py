@@ -17,7 +17,7 @@ OUT = 'graph_gp/results/synth_two_regime/synthetic_two_regime.pdf'
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 
 # Paper convention: gamma_paper = -gamma_code (gamma=1 stationary).
-SIGN = -1.0
+SIGN = 1.0
 
 rows = json.load(open(f'{D}/all_seeds.json'))
 methods = ['stat', 'm05', 'm15', 'het', 'lgamma', 'lgamma_block']

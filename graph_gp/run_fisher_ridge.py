@@ -68,7 +68,7 @@ def neg_mll(lt, ls, ln, gamma, L, d_raw, n, yt, ti, nu=0.5):
     yy = torch.tensor(yt)
     ot = torch.tensor(ti, dtype=torch.long); m = len(ti)
     t, s, no = torch.exp(lt), torch.exp(ls), torch.exp(ln)
-    d_pow = torch.pow(d_t, gamma / 2.0)
+    d_pow = torch.pow(d_t, -gamma / 2.0)
     d_pow = torch.clamp(d_pow, min=1e-4, max=1e4)
     D_pow = torch.diag(d_pow)
     Q = D_inv + 2 * t * D_pow @ Lt @ D_pow
@@ -153,7 +153,7 @@ def run(dataset, seed, day, outdir, gamma_ref, n_iter, nu=0.5):
     t2 = time.time()
     params0 = learn_gamma_ridge(L, n, d_raw, yt, ti, lam=0.0,
                                 gamma_ref=gamma_ref, n_iter=n_iter,
-                                init=(th, sh, noh), gamma_init=-1.0, nu=nu)
+                                init=(th, sh, noh), gamma_init=1.0, nu=nu)
     if params0 is None:
         _log(f'  vanilla lgamma FAILED')
         return
@@ -175,7 +175,7 @@ def run(dataset, seed, day, outdir, gamma_ref, n_iter, nu=0.5):
     t4 = time.time()
     params_f = learn_gamma_ridge(L, n, d_raw, yt, ti, lam=lam_fisher,
                                  gamma_ref=gamma_ref, n_iter=n_iter,
-                                 init=(th, sh, noh), gamma_init=-1.0, nu=nu)
+                                 init=(th, sh, noh), gamma_init=1.0, nu=nu)
     if params_f is None:
         _log(f'  ridge-fisher FAILED')
         return
