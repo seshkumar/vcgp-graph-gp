@@ -1,9 +1,9 @@
 """Deep kernel learning baseline: MLP feature map + stationary GP.
 
-The non-stationary baseline for NeurIPS. Uses a small MLP to learn
+A learned-representation baseline. Uses a small MLP to learn
 a non-linear feature map, then applies a stationary RBF kernel in
 the learned feature space. This is a standard non-stationary GP
-approach that NeurIPS reviewers will expect as a comparison.
+approach, included as a learned-representation comparison.
 
 Simpler variant: input warping via sigmoid transform of node features.
 """

@@ -1,6 +1,6 @@
 """Validation-fold model selection for the VCGP family (leakage-free).
 
-Answers the reviewer request: report numbers under ONE fixed selection rule
+Reports numbers under ONE fixed selection rule
 (family member, and block K) chosen on a validation fold per seed, NOT the
 post-hoc best member.
 
@@ -58,7 +58,7 @@ SEEDS = list(range(1729, 1749))
 #   Simple sensor/air datasets: scalar members + coordinate-only blocks.
 #   PM2.5: scalar members + augmented-K-means block_aug over (K, w) -- the
 #     leader family -- so the winning (K, w) is chosen on VALIDATION, not
-#     post-hoc on test (the reviewer's request).
+#     post-hoc on test.
 AUG_CONFIGS = [(K, w) for K in (2, 5, 10, 20) for w in (0.5, 1.0)]
 CANDIDATES_SIMPLE = ['stat', 'fem', 'het', 'lgamma',
                      'lgamma_block_K2', 'lgamma_block_K5', 'lgamma_block_K10']
@@ -66,7 +66,7 @@ CANDIDATES_PM25 = (['stat', 'fem', 'het', 'lgamma']
                    + [f'augblock_K{K}_w{w}' for K, w in AUG_CONFIGS])
 
 # --grid full: additionally select over the auxiliary d and the ridge lambda
-# (the reviewer asked for selection over member, K, d AND lambda -- the base
+# (selection ranges over member, K, d AND lambda -- the base
 # grid only spans member/K/w with a fixed d). Selection over lambda is realised
 # by adding lgamma_fisher (lambda = data-driven Fisher ridge) so the pool
 # contains both the unregularised member (lambda = 0, plain lgamma) and the
@@ -348,7 +348,7 @@ def ensure_baselines(dataset, A, L, n, y_norm, d_raw, coords_km, feat,
     seed. Runs run_all() (stat/fem/het/lgamma + all classical baselines) ONLY for
     seeds whose result file is missing, and skips seeds already computed. Returns
     the list of per-seed result dicts. This makes the CV runner self-contained:
-    a reviewer runs one command and gets the honest-selection number AND the full
+    one command gives the honest-selection number AND the full
     leaderboard, without a separate baseline sweep."""
     from run_all_methods import run_all
     os.makedirs(results_dir, exist_ok=True)

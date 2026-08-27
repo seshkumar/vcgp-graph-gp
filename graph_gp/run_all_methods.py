@@ -509,7 +509,7 @@ def load_metrla():
     # Auxiliary d_i (temporal coefficient of variation) is computed from the
     # readings AFTER the target day, so it shares no observation with the
     # target (the mean over the first 288 readings). This removes the
-    # target/auxiliary leakage flagged in review; CA Weather is already clean
+    # target/auxiliary leakage; CA Weather is already clean
     # by construction (2022 auxiliary vs 2023 target).
     aux = speeds[288:, :]
     d_raw = aux.std(axis=0) / (aux.mean(axis=0) + 1e-8)
@@ -702,7 +702,7 @@ def load_pm25(k=8):
     # days define the auxiliary variability (annual standard deviation -- per
     # the paper, NOT the coefficient of variation). Interleaving keeps both
     # statistics representative of the full year while sharing no observation,
-    # removing the same-year leakage flagged in review.
+    # removing the same-year leakage.
     daily = daily.sort_values(['site', 'Date Local'])
     daily['day_rank'] = daily.groupby('site').cumcount()
     tgt = (daily[daily['day_rank'] % 2 == 0]

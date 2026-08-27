@@ -1,16 +1,19 @@
 # Reproducibility kit — Variance-Coupled Graph Gaussian Processes
 
-This directory is a self-contained package: the driver scripts plus the
-bundled `graph_gp/` runner library reproduce the tables and figures in the
-paper without referencing any code outside this directory. All randomness is
-controlled by 20 locked seeds (`1729`–`1748`). Outputs land under the bundled
-`graph_gp/data_cache/` and `graph_gp/results/`.
+Code for *Practical Non-Stationary Graph Gaussian Processes*.
 
-This is the corrected package. Relative to the earlier release it (a) uses the
-leakage-free auxiliary loaders, (b) ships every runner needed for the headline
-members (Fisher-ridge, block-augmented, spectral-BIC), (c) ships the validation-
-fold model-selection scripts, (d) makes `reproduce.py` emit the Fisher-ridge
-JSONs it aggregates, and (e) corrects two baseline labels (see Notes).
+This repository is self-contained: the driver scripts plus the bundled
+`graph_gp/` runner library reproduce the tables and figures in the paper without
+referencing any code outside it. All randomness is controlled by 20 locked seeds
+(`1729`–`1748`). Outputs land under the bundled `graph_gp/data_cache/` and
+`graph_gp/results/`.
+
+The package ships the leakage-free auxiliary loaders — each `d_i` is computed
+from a window disjoint from the regression target, so it shares no observation
+with the quantity being predicted (see §6) — together with every runner needed
+for the headline family members (Fisher-ridge, block-augmented, spectral-BIC),
+the validation-fold model-selection scripts, and the baseline labels documented
+in §7.
 
 ---
 
