@@ -208,12 +208,16 @@ target, so it shares no observation with the quantity being predicted:
 
 ## 7. Notes on the baselines (labels)
 
-- **BKTR.** The `bktr` column in `run_all_methods.py` (and hence in the main
-  leaderboard for the sensor/air datasets) is an SE-kernel spatial-GP baseline
-  fitted by grid search, not the low-rank tensor method of Lei, Labbé & Sun
-  (*Bayesian Analysis* 20(3):919–947, 2025). The cited method is provided
-  separately as `run_bktr_baseline.py` (requires `pyBKTR`). The `bktr`
-  leaderboard row is SE-kernel kriging, printed as `se_kriging`.
+- **Spatial-kriging baseline (`se_kriging`).** The `bktr` key written by
+  `run_all_methods.py` comes from `run_bktr_manual`, a squared-exponential-kernel
+  spatial GP fitted by grid search over lengthscale, amplitude and noise. It is
+  the kriging baseline reported on all five datasets, and it is printed and
+  reported as `se_kriging`. It is not the low-rank tensor method of Lei, Labbé &
+  Sun (*Bayesian Analysis* 20(3):919–947, 2025).
+- **Bayesian kernelised tensor regression (`run_bktr_baseline.py`).** The cited
+  tensor method is implemented separately and requires `pyBKTR`. It was run on
+  METR-LA, PEMS-BAY, LAQN and CA Weather (20 seeds each, NLL only; PM2.5 was not
+  run), and its output is not the row reported in the paper.
 - **Deep Ensemble GNN.** The Appendix E numbers come from
   `run_deep_ensemble_gnn.py` (an ensemble of M = 5 graph convolutional networks
   with mean/variance heads). `deep_kernel_baseline.py` is a different baseline
