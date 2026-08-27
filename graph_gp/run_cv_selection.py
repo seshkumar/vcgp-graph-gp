@@ -348,7 +348,7 @@ def ensure_baselines(dataset, A, L, n, y_norm, d_raw, coords_km, feat,
     seed. Runs run_all() (stat/fem/het/lgamma + all classical baselines) ONLY for
     seeds whose result file is missing, and skips seeds already computed. Returns
     the list of per-seed result dicts. This makes the CV runner self-contained:
-    one command gives the honest-selection number AND the full
+    one command gives the validation-selected number AND the full
     leaderboard, without a separate baseline sweep."""
     from run_all_methods import run_all
     os.makedirs(results_dir, exist_ok=True)
@@ -376,7 +376,7 @@ def ensure_baselines(dataset, A, L, n, y_norm, d_raw, coords_km, feat,
 
 
 def full_leaderboard(tag, n, base_rows, cv_nll, cv_rmse):
-    """Print baselines + core family + the honest CV-selected row, sorted by
+    """Print baselines + core family + the validation-selected row, sorted by
     NLL/pt (same n_test=30% normalization as the paper)."""
     ntest = max(1, n - int(0.7 * n))
     members = [('stat', 'stat'), ('fem', 'semisup'), ('het', 'het'),
@@ -392,7 +392,7 @@ def full_leaderboard(tag, n, base_rows, cv_nll, cv_rmse):
             table[label] = (float(np.mean(v)),
                             float(np.mean(rr)) if rr else float('nan'), cat)
     table['lgamma_block (CV-selected)'] = (
-        float(np.mean(cv_nll)), float(np.mean(cv_rmse)), 'family (honest CV)')
+        float(np.mean(cv_nll)), float(np.mean(cv_rmse)), 'family (CV-selected)')
     print(f'\n===== {tag}: full leaderboard (NLL/pt, n_test={ntest}) =====', flush=True)
     print(f'  {"method":30s} {"NLL/pt":>8} {"RMSE":>8}  category', flush=True)
     for m, (nl, rm, cat) in sorted(table.items(), key=lambda x: x[1][0]):

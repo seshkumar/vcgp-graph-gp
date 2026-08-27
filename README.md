@@ -69,8 +69,8 @@ stops with an error rather than silently querying the live API; pass
 `--allow-laqn-refetch` to download the *same frozen snapshot* from the pinned
 remote mirror (`fetch_laqn_cache.py`). Only `fetch_laqn_cache.py --live`
 rebuilds from the live API, which drifts and will not reproduce the reported
-numbers. For a permanent public release, host the two cache files on an archive
-with a DOI and point `REMOTE_CACHE_BASE` in `fetch_laqn_cache.py` at it.
+numbers. `REMOTE_CACHE_BASE` in `fetch_laqn_cache.py` sets the mirror the snapshot is
+fetched from.
 
 ---
 
@@ -125,9 +125,9 @@ form the clusters (`run_pm25_augmented.py` / `run_caweather_augmented.py`).
 `reproduce.py` runs the headline `(K, w)` for PM2.5 and CA Weather automatically
 (pass `--skip-augmented` to disable), and the `lgamma_block_aug` row appears in
 the aggregated leaderboard. To sweep other `(K, w)`, call the runner directly with
-`--K <K> --w <w>` over K in {2,5,10,20}, w in {0.5,1.0}. Selecting `K`/`w` post
-hoc on the test set overstates performance; the honest, validation-selected
-numbers are produced by `run_cv_selection.py` (next section).
+`--K <K> --w <w>` over K in {2,5,10,20}, w in {0.5,1.0}. Selecting `K`/`w` on the
+test set uses the test data both to choose and to score the configuration; the
+validation-selected numbers are produced by `run_cv_selection.py` (next section).
 
 ### Skipping expensive baselines
 
@@ -137,7 +137,7 @@ python reproduce.py --dataset pm25 --all-seeds --skip dk bktr --skip-fisher --sk
 
 ---
 
-## 4. Validation-fold model selection (honest, non-post-hoc)
+## 4. Validation-fold model selection
 
 `run_cv_selection.py` reports the numbers under a single fixed selection rule:
 for each seed it splits the nodes into train / validation / test, selects the
@@ -166,9 +166,10 @@ never overwrite base-grid results.
 
 Note on data size: a three-way split needs enough nodes. It is informative on
 PM2.5 (n ≈ 1000) and CA Weather (12 monthly snapshots); on the small
-single-snapshot datasets (LAQN, n = 52; METR-LA, single snapshot) validation
-selection is statistically unstable, and the post-hoc leaderboard together with
-the fixed member `het` are the appropriate summaries there.
+single-snapshot datasets (LAQN, n = 52; METR-LA, single snapshot) the validation
+fold holds roughly 10-40 nodes and the selection varies from seed to seed; the
+per-dataset leaderboard and the fixed member `het` are the summaries reported
+there.
 
 ---
 
@@ -190,8 +191,8 @@ All five real datasets are public benchmarks; the first run auto-downloads the
 raw files into `graph_gp/data_cache/<name>/`.
 
 The variance field `d_i` is data-derived (not learned from the regression
-likelihood) and, importantly, is computed from a window **disjoint** from the
-prediction target, so it does not leak target information:
+likelihood) and is computed from a window **disjoint** from the prediction
+target, so it shares no observation with the quantity being predicted:
 
 | Dataset | Auxiliary `d_i` | Window relative to the target |
 |---|---|---|
@@ -211,8 +212,8 @@ prediction target, so it does not leak target information:
   leaderboard for the sensor/air datasets) is an SE-kernel spatial-GP baseline
   fitted by grid search, not the low-rank tensor method of Lei, Labbé & Sun
   (*Bayesian Analysis* 20(3):919–947, 2025). The cited method is provided
-  separately as `run_bktr_baseline.py` (requires `pyBKTR`). Read the `bktr`
-  leaderboard row as "SE-kernel kriging" (printed as `se_kriging`).
+  separately as `run_bktr_baseline.py` (requires `pyBKTR`). The `bktr`
+  leaderboard row is SE-kernel kriging, printed as `se_kriging`.
 - **Deep Ensemble GNN.** The Appendix E numbers come from
   `run_deep_ensemble_gnn.py` (an ensemble of M = 5 graph convolutional networks
   with mean/variance heads). `deep_kernel_baseline.py` is a different baseline
