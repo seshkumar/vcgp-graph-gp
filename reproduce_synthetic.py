@@ -2,7 +2,7 @@
 """Reproduce the two synthetic experiments.
 
 * ``identifiability``  -- a 20x20 grid graph with a known auxiliary field;
-  for each gamma_true in {-1, 0, 1, 3} (paper convention) we draw 10
+  for each gamma_true in {-1, 0, 1, 3} we draw 10
   spatial snapshots, refit gamma by joint MLL, and report
   recovered gamma_hat. Produces ``identifiability.pdf``.
 

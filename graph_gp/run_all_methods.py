@@ -210,14 +210,10 @@ def learn_gamma(L, n, d_raw, yt, ti, n_iter=300, lr=0.03, init=None,
                 gamma_init=1.0):
     """Learn (tau, scale, noise, gamma) jointly via MLL for the paper's Q_gamma:
 
-        Q_gamma = D^{-1} + 2*tau * D^{gamma/2} L D^{gamma/2}
-
-    SIGN CONVENTION: the code uses D^{+gamma/2}; the paper writes D^{-gamma/2},
-    so gamma_paper = -gamma_code. Reported gamma-hat values are in the paper's
-    convention. (Same convention throughout this file and synthetic_two_regime.py.)
+        Q_gamma = D^{-1} + 2*tau * D^{-gamma/2} L D^{-gamma/2}
 
     where D = diag(d_i) is fixed from the auxiliary data. The diagonal is
-    D^{-1} independent of gamma; only the edge wrapping D^{gamma/2} scales
+    D^{-1} independent of gamma; only the edge wrapping D^{-gamma/2} scales
     with gamma. With this form:
         gamma = 0   -> Q = D^{-1} + 2*tau*L           (=== semisup)
         gamma = -1  -> Q = D^{-1} + 2*tau*D^{-1/2} L D^{-1/2}  (=== het)

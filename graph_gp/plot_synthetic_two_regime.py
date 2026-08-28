@@ -16,7 +16,6 @@ D = 'graph_gp/results/synth_two_regime'
 OUT = 'graph_gp/results/synth_two_regime/synthetic_two_regime.pdf'
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 
-# Paper convention: gamma_paper = -gamma_code (gamma=1 stationary).
 SIGN = 1.0
 
 rows = json.load(open(f'{D}/all_seeds.json'))
@@ -53,7 +52,7 @@ axR.text(0.02, -0.90, 'γ_true=-1 (propagation)', fontsize=9, color='#cc2222')
 axR.text(1.02, 2.10, 'γ_true=+2 (isolation)', fontsize=9, color='#6699dd')
 axR.set_xticks([0, 1, 2])
 axR.set_xticklabels(['block γ_A', 'block γ_B', 'scalar γ*'])
-axR.set_ylabel('γ̂ (recovered, paper convention)')
+axR.set_ylabel('γ̂ (recovered)')
 axR.set_title('(b) γ recovery (20 seeds)')
 axR.axhline(0, color='black', linewidth=0.4, alpha=0.5)
 axR.set_ylim(-2.5, 5.5)

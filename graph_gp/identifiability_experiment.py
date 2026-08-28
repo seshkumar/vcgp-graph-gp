@@ -113,8 +113,6 @@ def generate_and_recover(gamma_true, train_frac, seed, side=20):
 
 
 if __name__ == '__main__':
-    # Paper convention: gamma_paper = -gamma_code. The internal kernel/fit
-    # routines use code convention; we negate at the user boundary.
     SIGN = 1.0
     gammas_true_paper = [-1.0, 0.0, 1.0, 3.0]
     train_fracs = [0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
