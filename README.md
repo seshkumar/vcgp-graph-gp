@@ -86,7 +86,10 @@ On first run this fetches any missing data into `graph_gp/data_cache/`, then
 writes `results_metrla_seed1729.json` and the Fisher-ridge JSONs
 `fisher_ridge_metrla_seed1729.json` and `fisher_ridge_nu1_5_metrla_seed1729.json`.
 (The Fisher-ridge member is run automatically for the non-CA-Weather datasets;
-pass `--skip-fisher` to disable it.)
+pass `--skip-fisher` to disable it. The spectral-BIC block member runs
+automatically too, writing `spectral_bic_<dataset>_seed<seed>.json`; pass
+`--skip-spectral-bic` to disable it. It is the reported RMSE and recalibrated-NLL
+leader on LAQN, where the Bayesian Information Criterion selects two blocks.)
 
 ### Full 20-seed sweep and leaderboard
 

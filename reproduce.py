@@ -290,6 +290,19 @@ def run_augmented(dataset: str, seed: int, K: int, w: float,
     return subprocess.call(cmd, cwd=str(REPO_ROOT))
 
 
+def run_spectral_bic(dataset: str, seed: int,
+                     day: int | None = None) -> int:
+    """Spectral-BIC block member (spectral_bic_lgamma_block). Partitions by
+    spectral clustering of L with K chosen by the Bayesian Information
+    Criterion, and writes spectral_bic_*.json, which the aggregator reads.
+    This is the reported RMSE and recalibrated-NLL leader on LAQN."""
+    cmd = [sys.executable, '-u', str(GRAPH_GP / 'run_spectral_bic.py'),
+           '--dataset', dataset, '--seed', str(seed)]
+    if dataset == 'caweather':
+        cmd += ['--day', str(day if day is not None else 195)]
+    return subprocess.call(cmd, cwd=str(REPO_ROOT))
+
+
 def run_fisher(dataset: str, seed: int, nu: float,
                day: int | None = None) -> int:
     """Fisher-ridge member (lgamma_fisher). Writes fisher_ridge[_nu<nu>]_*.json,
@@ -469,6 +482,8 @@ def main() -> int:
                    help='aggregate cached results into a leaderboard')
     p.add_argument('--skip', nargs='*', default=[],
                    help='methods to skip (e.g. --skip dk bktr)')
+    p.add_argument('--skip-spectral-bic', action='store_true',
+                   help='do not run the spectral-BIC block member')
     p.add_argument('--skip-fisher', action='store_true',
                    help='do not also run the Fisher-ridge member '
                         '(lgamma_fisher); by default it is run for the '
@@ -527,6 +542,10 @@ def main() -> int:
                     if not args.skip_augmented and ds in AUG_LEADER:
                         K, w = AUG_LEADER[ds]
                         run_augmented(ds, seed, K, w, day=day)
+                    # The spectral-BIC block member is the reported LAQN RMSE
+                    # and recalibrated-NLL leader, so regenerate it too.
+                    if not args.skip_spectral_bic:
+                        run_spectral_bic(ds, seed, day=day)
 
         if args.aggregate:
             write_leaderboard(ds)
