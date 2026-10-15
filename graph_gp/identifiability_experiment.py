@@ -1,10 +1,10 @@
 """Identifiability experiment: can MLL recover known gamma from one snapshot?
 
 Uses the locked paper-form precision
-    Q_gamma = D^{-1} + 2*tau * D^{gamma/2} L D^{gamma/2}
+    Q_gamma = D^{-1} + 2*tau * D^{-gamma/2} L D^{-gamma/2}
 with unnormalised Laplacian L = D_deg - A on a 20x20 grid. For each true
 gamma and training fraction, we draw 10 synthetic samples y ~ GP(0, K_gamma),
-refit gamma by joint MLL (warm-started at gamma = -1 as in run_all_methods
+refit gamma by joint MLL (warm-started at gamma = 1 as in run_all_methods
 learn_gamma), and record recovered gamma_hat.
 
 Saves docs/nonstationary_graph_gp/figs/identifiability.pdf and
@@ -38,7 +38,7 @@ def paper_kernel(L, d_raw, tau, scale, gamma, n):
 
 
 def fit_gamma_mll(L, n, d_raw, yt, ti, n_iter=300, lr=0.03):
-    """Joint MLL for (tau, scale, noise, gamma). Warm-start at gamma = -1."""
+    """Joint MLL for (tau, scale, noise, gamma). Warm-start at gamma = 1."""
     Lt = torch.tensor(L)
     d_t = torch.tensor(np.maximum(d_raw, 1e-8))
     D_inv = torch.diag(1.0 / d_t)
@@ -49,7 +49,7 @@ def fit_gamma_mll(L, n, d_raw, yt, ti, n_iter=300, lr=0.03):
     lt = torch.tensor(0.0, requires_grad=True)
     ls = torch.tensor(0.0, requires_grad=True)
     ln = torch.tensor(-4.0, requires_grad=True)
-    gamma = torch.tensor(-1.0, requires_grad=True)
+    gamma = torch.tensor(1.0, requires_grad=True)
     opt = torch.optim.Adam([lt, ls, ln, gamma], lr=lr)
 
     best_nll = 1e20

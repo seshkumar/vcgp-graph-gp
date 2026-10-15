@@ -294,7 +294,7 @@ def fit_one(L, n, d_field, y_norm, ti, xi, K_clusters, coords_km, w, method='lga
 def run_seed_loop(dataset, d_field_name, K, w, payload, outdir, method='lgamma', day=None):
     """Run all 20 seeds for one cell.
     method='lgamma' uses K (K=1 scalar lgamma, K>=2 lgamma_block_aug);
-    method='het' fits at gamma=-1; method='semisup' fits at gamma=0.
+    method='het' fits at gamma=1; method='semisup' fits at gamma=0.
     For het/semisup the K argument is ignored on the model side but still
     threaded into the file name (use K=0 in PBS for het, K=-1 for semisup,
     or any single value to namespace the output)."""
@@ -360,7 +360,7 @@ def main():
                         '(K is just a tag in those cases).')
     p.add_argument('--method', default='lgamma',
                    choices=['lgamma', 'het', 'semisup'],
-                   help='Model variant. lgamma uses --K; het fixes gamma=-1; '
+                   help='Model variant. lgamma uses --K; het fixes gamma=1; '
                         'semisup fixes gamma=0.')
     p.add_argument('--w', type=float, default=1.0)
     p.add_argument('--outdir', default='graph_gp/results')

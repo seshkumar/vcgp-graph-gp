@@ -226,7 +226,7 @@ def main():
                    default=[1729, 1730, 1731, 1732, 1733, 1734, 1735, 1736, 1737, 1738])
     p.add_argument('--lambdas', type=float, nargs='+',
                    default=[0.0, 0.5, 1.0, 2.0, 5.0, 10.0, 30.0])
-    p.add_argument('--gamma-ref', type=float, default=-1.0)
+    p.add_argument('--gamma-ref', type=float, default=1.0)
     args = p.parse_args()
 
     A, L, n, y, d_raw, coords_km, feat = load_metrla()

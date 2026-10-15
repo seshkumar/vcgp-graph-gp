@@ -9,8 +9,8 @@ Datasets: metrla, pemsbay, laqn (single-snapshot 70/30 split)
 
 All methods use the unnormalized (combinatorial) Laplacian L = D_deg - A.
 het and semisup are fit by joint MLL (their own tau, scale, noise).
-learn_gamma uses the paper's Q_gamma = D^{-1} + 2*tau * D^{gamma/2} L D^{gamma/2},
-so gamma=0 recovers semisup and gamma=-1 recovers het exactly (Proposition 1).
+learn_gamma uses the paper's Q_gamma = D^{-1} + 2*tau * D^{-gamma/2} L D^{-gamma/2},
+so gamma=0 recovers semisup and gamma=1 recovers het exactly (Proposition 1).
 
 Output: graph_gp/results/results_{dataset}_seed{seed}.json
         graph_gp/results/results_caweather_day{day}_seed{seed}.json
@@ -216,7 +216,7 @@ def learn_gamma(L, n, d_raw, yt, ti, n_iter=300, lr=0.03, init=None,
     D^{-1} independent of gamma; only the edge wrapping D^{-gamma/2} scales
     with gamma. With this form:
         gamma = 0   -> Q = D^{-1} + 2*tau*L           (=== semisup)
-        gamma = -1  -> Q = D^{-1} + 2*tau*D^{-1/2} L D^{-1/2}  (=== het)
+        gamma = 1   -> Q = D^{-1} + 2*tau*D^{-1/2} L D^{-1/2}  (=== het)
     so lgamma is a one-parameter family containing semisup and het exactly.
 
     Warm-start: if `init=(tau, scale, noise)` is provided, initialises those
@@ -243,7 +243,7 @@ def learn_gamma(L, n, d_raw, yt, ti, n_iter=300, lr=0.03, init=None,
     lt = torch.tensor(lt0, requires_grad=True)
     ls = torch.tensor(ls0, requires_grad=True)
     ln = torch.tensor(ln0, requires_grad=True)
-    # Initialise at gamma = -1 (het, the Proposition 1 factorisation point)
+    # Initialise at gamma = 1 (het, the Proposition 1 factorisation point)
     # by default; overridable via gamma_init.
     gamma = torch.tensor(float(gamma_init), requires_grad=True)
     opt = torch.optim.Adam([lt, ls, ln, gamma], lr=lr)
@@ -251,7 +251,7 @@ def learn_gamma(L, n, d_raw, yt, ti, n_iter=300, lr=0.03, init=None,
     for _ in range(n_iter):
         opt.zero_grad()
         t, s, no = torch.exp(lt), torch.exp(ls), torch.exp(ln)
-        d_pow = torch.pow(d_t, -gamma / 2.0)            # D^{gamma/2}
+        d_pow = torch.pow(d_t, -gamma / 2.0)            # D^{-gamma/2}
         d_pow = torch.clamp(d_pow, min=1e-4, max=1e4)
         D_pow = torch.diag(d_pow)
         Q = D_inv + 2 * t * D_pow @ Lt @ D_pow
@@ -300,7 +300,7 @@ def learn_gamma_per_cluster(L, n, d_raw, yt, ti, cluster_labels,
     lt = torch.tensor(lt0, requires_grad=True)
     ls = torch.tensor(ls0, requires_grad=True)
     ln = torch.tensor(ln0, requires_grad=True)
-    gamma_k = torch.full((K,), -1., dtype=torch.float64, requires_grad=True)
+    gamma_k = torch.full((K,), 1., dtype=torch.float64, requires_grad=True)
     opt = torch.optim.Adam([lt, ls, ln, gamma_k], lr=lr)
     best_nll = 1e20; best_params = None
     for _ in range(n_iter):
@@ -374,7 +374,7 @@ def learn_fuglstad_regularized(L, n, d_raw, yt, ti, lam, n_iter=200, lr=0.03):
     At = torch.tensor(A_sparse)
     yy = torch.tensor(yt)
     ot = torch.tensor(ti, dtype=torch.long); m = len(ti)
-    # Initialise log-kappa from gamma=-1 (hetero)
+    # Initialise log-kappa from gamma=1 (hetero)
     lk_init = -np.log(np.maximum(d_raw, 1e-8))
     lt = torch.tensor(0., requires_grad=True)
     ls = torch.tensor(0., requires_grad=True)
@@ -769,7 +769,7 @@ def run_all(A, L, n, y_norm, d_raw, coords_km, feat, seed, dataset, skip=None):
     result.update(compute_metrics('stat', mu_s, var_s, y_norm, xi))
     print(f"    stat: NLL/pt={_pp('nll_stat')}", flush=True)
 
-    # --- 2. Het (gamma = -1 factorisation): K = s * D^{1/2} (I + 2*tau*L)^{-1} D^{1/2}
+    # --- 2. Het (gamma = 1 factorisation): K = s * D^{1/2} (I + 2*tau*L)^{-1} D^{1/2}
     # Fit jointly via MLL for (tau, scale, noise).
     D_sqrt = np.diag(np.sqrt(np.maximum(d_raw, 1e-8)))
     t_h, s_h, no_h = fit_het_joint(L, n, d_raw, yt, ti)
@@ -831,7 +831,7 @@ def run_all(A, L, n, y_norm, d_raw, coords_km, feat, seed, dataset, skip=None):
         print(f"    lnu:  NLL/pt={_pp('nll_lnu')} nu={result.get('nu_learned', 'nan')}", flush=True)
 
     # --- 5. Learned gamma ---
-    # Warm-start from the het fit (which is Q_gamma at gamma=-1). Guarantees
+    # Warm-start from the het fit (which is Q_gamma at gamma=1). Guarantees
     # lgamma NLL <= het NLL because Adam starts at the het optimum and can
     # only move to lower-NLL regions.
     params = learn_gamma(L, n, d_raw, yt, ti, init=(t_h, s_h, no_h))

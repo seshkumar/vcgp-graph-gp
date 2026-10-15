@@ -226,7 +226,7 @@ def main():
     p.add_argument('--day', type=int, default=None,
                    help='Day-of-year (caweather only).')
     p.add_argument('--outdir', default='graph_gp/results')
-    p.add_argument('--gamma-ref', type=float, default=-1.0)
+    p.add_argument('--gamma-ref', type=float, default=1.0)
     p.add_argument('--n-iter', type=int, default=300)
     p.add_argument('--nu', type=float, default=0.5,
                    choices=[0.5, 1.5],

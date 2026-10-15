@@ -24,7 +24,7 @@ We then fit six models and compare NLL/RMSE across 10 seeds:
 
   INSIDE THE FAMILY, fixed gamma:
     * stat    (gamma=0, uniform d_i = 1)
-    * het     (gamma=-1)
+    * het     (gamma=1)
 
   INSIDE THE FAMILY, learned gamma:
     * lgamma        (one scalar gamma)
@@ -71,8 +71,8 @@ N_PER_BLOCK = 100                  # n = 200
 P_IN_SPARSE = 0.04                 # block A: expected d ~ 4
 P_IN_DENSE  = 0.20                 # block B: expected d ~ 20
 P_BETWEEN   = 0.005
-GAMMA_SPARSE = +1.0                # "homophilic" side
-GAMMA_DENSE  = -2.0                # "heterophilic" side
+GAMMA_SPARSE = -1.0                # sparse-block propagation (paper convention)
+GAMMA_DENSE  = +2.0                # dense-block isolation (paper convention)
 TAU_TRUE = 1.0
 NOISE_VAR_TRUE = 0.05
 OUTDIR = 'graph_gp/results/synth_two_regime'
@@ -116,7 +116,7 @@ def build_two_block_sbm(n_per_block, p_in_sparse, p_in_dense, p_between, seed):
 
 
 def build_kernel_piecewise_gamma(L, d_raw, tau, gamma_per_node):
-    """K = (D^{-1} + 2*tau * D^{gamma/2} L D^{gamma/2})^{-1}, per-node gamma."""
+    """K = (D^{-1} + 2*tau * D^{-gamma/2} L D^{-gamma/2})^{-1}, per-node gamma."""
     n = L.shape[0]
     d = np.maximum(d_raw, 1e-8)
     d_pow = np.clip(np.power(d, -gamma_per_node / 2.0), 1e-4, 1e4)
@@ -197,7 +197,7 @@ def run_one_seed(seed):
     results.update(compute_metrics('stat', mu, var, y, xi))
     log(f'  stat  NLL={results["nll_stat"]:7.2f}  RMSE={results["rmse_stat"]:.3f}  ({time.time()-t:.1f}s)')
 
-    # --- het: gamma = -1, real d_i ---
+    # --- het: gamma = 1, real d_i ---
     t = time.time()
     het = fit_het_joint(L, n, d_raw, yt, ti)
     if het is None:
@@ -217,7 +217,7 @@ def run_one_seed(seed):
     if pg is None:
         log(f'  lgamma returned None; skipping'); return results
     tau_g, sc_g, no_g, gamma_scalar = pg
-    d_pow_g = np.clip(np.power(np.maximum(d_raw, 1e-8), gamma_scalar / 2.0), 1e-4, 1e4)
+    d_pow_g = np.clip(np.power(np.maximum(d_raw, 1e-8), -gamma_scalar / 2.0), 1e-4, 1e4)
     Q_g = np.diag(1.0 / np.maximum(d_raw, 1e-8)) + 2 * tau_g * (
         d_pow_g[:, None] * L * d_pow_g[None, :])
     K_g = sc_g * np.linalg.inv(Q_g + 1e-8 * np.eye(n))
@@ -236,7 +236,7 @@ def run_one_seed(seed):
         log(f'  lgamma_block returned None; skipping'); return results
     tau_b, sc_b, no_b, gk = pb
     gamma_per_node = gk[labels]
-    d_pow_b = np.clip(np.power(np.maximum(d_raw, 1e-8), gamma_per_node / 2.0), 1e-4, 1e4)
+    d_pow_b = np.clip(np.power(np.maximum(d_raw, 1e-8), -gamma_per_node / 2.0), 1e-4, 1e4)
     Q_b = np.diag(1.0 / np.maximum(d_raw, 1e-8)) + 2 * tau_b * (
         d_pow_b[:, None] * L * d_pow_b[None, :])
     K_b = sc_b * np.linalg.inv(Q_b + 1e-8 * np.eye(n))
@@ -259,7 +259,7 @@ def run_one_seed(seed):
 def summarise(rows):
     methods = ['m05', 'm15', 'stat', 'het', 'lgamma', 'lgamma_block']
     log('\n' + '=' * 86)
-    log(f'SYNTHETIC TWO-REGIME  (n=200; gamma_true_A=+1, gamma_true_B=-2)')
+    log(f'SYNTHETIC TWO-REGIME  (n=200; gamma_true_A={GAMMA_SPARSE:+.0f}, gamma_true_B={GAMMA_DENSE:+.0f})')
     log(f'{len(rows)} seeds')
     log('=' * 86)
     hdr = f'  {"method":<16s}  {"NLL":>18s}  {"RMSE":>18s}'
@@ -275,12 +275,12 @@ def summarise(rows):
     if any('gamma_scalar' in r for r in rows):
         gs = [r['gamma_scalar'] for r in rows if 'gamma_scalar' in r]
         log(f'\n  scalar gamma*:    mean {np.mean(gs):+.2f}  std {np.std(gs):.2f}  '
-            f'(compromise between true +1 and -2)')
+            f'(compromise between true {GAMMA_SPARSE:+.0f} and {GAMMA_DENSE:+.0f})')
     if any('gamma_k' in r for r in rows):
         gA = [r['gamma_k'][0] for r in rows if 'gamma_k' in r]
         gB = [r['gamma_k'][1] for r in rows if 'gamma_k' in r]
-        log(f'  block gamma_A:    mean {np.mean(gA):+.2f}  std {np.std(gA):.2f}  (true +1.00)')
-        log(f'  block gamma_B:    mean {np.mean(gB):+.2f}  std {np.std(gB):.2f}  (true -2.00)')
+        log(f'  block gamma_A:    mean {np.mean(gA):+.2f}  std {np.std(gA):.2f}  (true {GAMMA_SPARSE:+.2f})')
+        log(f'  block gamma_B:    mean {np.mean(gB):+.2f}  std {np.std(gB):.2f}  (true {GAMMA_DENSE:+.2f})')
 
 
 def main():
