@@ -212,7 +212,7 @@ target, so it shares no observation with the quantity being predicted:
 ## 7. Notes on the baselines (labels)
 
 - **Spatial-kriging baseline (`se_kriging`).** The `bktr` key written by
-  `run_all_methods.py` comes from `run_bktr_manual`, a squared-exponential-kernel
+  `run_all_methods.py` comes from `run_se_kriging`, a squared-exponential-kernel
   spatial GP fitted by grid search over lengthscale, amplitude and noise. It is
   the kriging baseline reported on all five datasets, and it is printed and
   reported as `se_kriging`. It is not the low-rank tensor method of Lei, Labbé &

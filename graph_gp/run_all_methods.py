@@ -448,8 +448,16 @@ def learn_spectral_poly(L, n, yt, ti, degree=3, n_iter=300, lr=0.03):
     return best_params
 
 
-def run_bktr_manual(coords, L, d_raw, y_norm, ti, xi, n_samples=300):
-    """BKTR-style spatial GP: SE kernel on coordinates, grid search over hyperparams."""
+def run_se_kriging(coords, L, d_raw, y_norm, ti, xi, n_samples=300):
+    """Squared-exponential-kernel spatial GP (kriging) on node coordinates, fitted by
+    grid search over lengthscale, noise and amplitude.
+
+    This is the `se_kriging` baseline reported in the paper. It is NOT Bayesian
+    Kernelized Tensor Regression: there is no tensor decomposition, no MCMC and no
+    spatially varying coefficient, and the graph Laplacian is not used. The cited
+    tensor method lives in run_bktr_baseline.py. The result keys this feeds
+    (nll_bktr, rmse_bktr, recal_bktr) keep their original names so that the stored
+    result files and the aggregators continue to read."""
     n = len(y_norm)
     n_train = len(ti)
     dist_sq = cdist(coords, coords, 'sqeuclidean')
@@ -920,7 +928,7 @@ def run_all(A, L, n, y_norm, d_raw, coords_km, feat, seed, dataset, skip=None):
         print("    bktr: SKIPPED", flush=True)
     else:
         try:
-            mu_bk, var_bk = run_bktr_manual(coords_km, L, d_raw, y_norm, ti, xi)
+            mu_bk, var_bk = run_se_kriging(coords_km, L, d_raw, y_norm, ti, xi)
             if mu_bk is not None:
                 result.update(compute_metrics('bktr', mu_bk, var_bk, y_norm, xi))
             else:
